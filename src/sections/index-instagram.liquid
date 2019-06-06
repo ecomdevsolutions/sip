@@ -1,0 +1,27 @@
+<div class="max-wrap">
+  <div class="container">
+    <h2 class="index-instagram__title">
+      {% if settings.social_instagram_link %}
+        <a class="index-instagram__link" href="{{ settings.social_instagram_link }}">
+      {% endif %}
+        {{ 'homepage.instagram_title' | t }}
+      {% if settings.social_instagram_link %}
+        </a>
+      {% endif %}
+    </h2>
+  </div>
+  {% comment %} TODO instagram app here {% endcomment %}
+  <div id="instagram-app"></div>
+</div>
+
+
+{% schema %}
+  {
+    "name": "Instagram",
+    "class": "index-instagram",
+    "presets": [{
+        "name": "Instagram",
+        "category": "Front Page"
+    }]
+  }
+{% endschema %}

@@ -1,0 +1,72 @@
+.index-f-collections {
+  margin: 0 0 25px;
+  overflow: hidden;
+
+  &__row {
+    margin-left: -10px;
+    margin-right: -10px;
+    margin-bottom: 40px;
+  }
+
+  &__col {
+    padding-left: 10px;
+    padding-right: 10px;
+    margin: 0 0 20px;
+  }
+
+  &__item {
+    display: flex;
+    height: 450px;
+    width: 100%;
+
+    &.no-bg {
+      background-color: rgba($color-carnation-pink, 0.2);
+    }
+  }
+
+  &__item-inner {
+    margin: auto;
+    text-align: center;
+  }
+
+  &__title {
+    @include lato(700);
+    @include text(30px, 36px, $color-white);
+    text-shadow: 0 0 15px rgba($color-black, 0.32);
+    margin: 0 0 15px;
+  }
+
+  &__link {
+    @include button(main);
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    padding: 10px 17px;
+  }
+
+  &__more-wrap {
+    margin: 0 0 55px;
+    text-align: center;
+  }
+
+  &__more-link {
+    @include button(wire);
+    display: inline-block;
+    padding: 18px 20px;
+  }
+
+  &__more-text {
+  }
+
+  &__more-arrow {
+    font-weight: 700;
+  }
+
+  &__separator {
+    display: block;
+    width: 100%;
+    height: 1px;
+    background-color: $color-alto;
+  }
+}

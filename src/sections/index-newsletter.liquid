@@ -1,0 +1,39 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      {% if section.settings.title %}
+        <h3 class="index-newsletter__title">{{ section.settings.title }}</h3>
+      {% endif %}
+      {% if section.settings.message %}
+        <div class="index-newsletter__message">{{ section.settings.message }}</div>
+      {% endif %}
+    </div>
+    <div class="col-md-6">
+      {% comment %} TODO justuno form subscription {% endcomment %}
+    </div>
+  </div>
+</div>
+
+
+{% schema %}
+  {
+    "name": "Newsletter",
+    "class": "index-newsletter",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title"
+      },
+      {
+        "type": "textarea",
+        "id": "message",
+        "label": "Message"
+      }
+    ],
+    "presets": [{
+        "name": "Newsletter",
+        "category": "Front Page"
+    }]
+  }
+{% endschema %}

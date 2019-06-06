@@ -1,0 +1,142 @@
+.index-testimonials {
+  position: relative;
+  padding: 40px 0 0;
+  margin: 0 0 60px;
+
+  &__bg {
+    z-index: -1;
+    position: absolute;
+    top: -40px;
+    left: 0;
+    width: 100%;
+    height: 60%;
+    background-color: $color-alabaster;
+  }
+
+  &__title {
+    @include section-title;
+    margin: 0 auto 45px;
+  }
+
+  &__content {
+    max-width: 810px;
+    margin: 0 auto 55px;
+    text-align: center;
+  }
+
+  &__content,
+  &__content p,
+  &__content a,
+  &__content li {
+    @include lato;
+    @include text(18px, 34px, $color-boulder);
+  }
+
+  &__logos {
+    margin: 0 0 85px;
+    text-align: center;
+  }
+
+  &__logo {
+    max-width: 80px;
+    max-height: 80px;
+    object-fit: scale-down;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 20px 20px;
+  }
+
+  &__testimonials {
+    @include clearfix;
+
+    > .index-testimonials__testimonial {
+      width: calc(33.333% - 30px);
+      float: left;
+      margin: 0 15px;
+    }
+    > .index-testimonials__testimonial:nth-of-type(n + 4) {
+      display: none;
+    }
+  }
+
+  &__testimonial {
+    background-color: $color-white;
+    padding: 50px 44px;
+    text-align: center;
+  }
+
+  &__testimonial-content {
+    @include lato;
+    @include text(18px, 28px, $color-boulder);
+    margin: 0 0 45px;
+  }
+
+  &__testimonial-image {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    object-fit: scale-down;
+    margin: 0 0 15px;
+    border: 1px solid $color-carnation-pink;
+    border-radius: 50%;
+  }
+
+  &__testimonial-author {
+    @include lato;
+    @include text(21px, 28px, $color-mineshaft);
+    margin: 0 0 10px;
+  }
+
+  &__testimonial-description {
+    @include lato;
+    @include text(18px, 28px, $color-boulder);
+  }
+
+  .slick-slide {
+    margin: 0 15px;
+  }
+
+  .slick-dots {
+    @include no-font-size;
+    display: block;
+    text-align: center;
+    width: 100%;
+    padding: 0 15px;
+    margin: 30px 0 0;
+
+    li {
+      @include no-font-size;
+      display: inline-block;
+      margin: 0 10px;
+      padding: 0;
+    }
+
+    button {
+      @include no-font-size;
+      @include transition(background-color, width, opacity);
+      width: 12px;
+      height: 12px;
+      border-radius: 8px;
+      border: none;
+      margin: 0;
+      padding: 0;
+      background: none;
+      background-color: $color-silver;
+      opacity: 0.5;
+    }
+
+    .slick-active {
+      button {
+        background-color: $color-carnation-pink;
+        opacity: 1;
+        width: 32px;
+      }
+    }
+  }
+
+  @media screen and (min-width: $grid-xl) {
+    &__container {
+      max-width: 1380px;
+    }
+  }
+}

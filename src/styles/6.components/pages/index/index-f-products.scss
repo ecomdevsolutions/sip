@@ -1,0 +1,47 @@
+.index-f-products {
+  &__container {
+  }
+
+  &__title {
+    @include section-title;
+    margin: 0 auto 90px;
+  }
+
+  &__col {
+    margin-bottom: 50px;
+  }
+
+  &__more-wrap {
+    margin: 0 0 55px;
+    text-align: center;
+  }
+
+  &__more-link {
+    @include button(wire);
+    display: inline-block;
+    padding: 18px 20px;
+  }
+
+  &__more-text {
+  }
+
+  &__more-arrow {
+    font-weight: 700;
+  }
+
+  @media screen and (min-width: $grid-xl) {
+    &__container {
+      max-width: 1380px;
+    }
+
+    &__row {
+      margin-left: -30px;
+      margin-right: -30px;
+    }
+
+    &__col {
+      padding-left: 30px;
+      padding-right: 30px;
+    }
+  }
+}

@@ -1,0 +1,130 @@
+<div class="max-wrap">
+  <div class="index-testimonials__bg"></div>
+  <div class="container index-testimonials__container">
+    {% if section.settings.title %}
+      <h2 class="index-testimonials__title">{{ section.settings.title }}</h2>
+    {% endif %}
+
+    {% if section.settings.content %}
+      <div class="index-testimonials__content">{{ section.settings.content }}</div>
+    {% endif %}
+
+    <div class="index-testimonials__logos">
+      {% for block in section.blocks %}
+        {% if block.type == "logo" %}
+          {% if block.settings.url != blank %}
+            <a href="{{ block.settings.url }}" class="index-testimonials__logo">
+          {% else %}
+            <span class="index-testimonials__logo">
+          {% endif %}
+
+            <img src="{{ block.settings.logo | img_url: '120x' }}" alt="block.settings.logo.alt" />
+
+          {% if block.settings.url != blank %}
+            </a>
+          {% else %}
+            </span>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    <div class="index-testimonials__testimonials" data-testimonials>
+      {% for block in section.blocks %}
+        {% if block.type == "testimonial" %}
+          <div class="index-testimonials__testimonial">
+            {% if block.settings.content %}
+              <div class="index-testimonials__testimonial-content">{{ block.settings.content }}</div>
+            {% endif %}
+
+            {% if block.settings.portrait %}
+              <img
+                class="index-testimonials__testimonial-image"
+                src="{{ block.settings.portrait | img_url: '150x' }}"
+                alt="{{ block.settings.author }} {{ block.settings.author_desc }}" />
+            {% endif %}
+
+            {% if block.settings.author != blank %}
+              <div class="index-testimonials__testimonial-author">{{ block.settings.author }}</div>
+            {% endif %}
+
+            {% if block.settings.author_desc != blank %}
+              <div class="index-testimonials__testimonial-description">{{ block.settings.author_desc }}</div>
+            {% endif %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+
+{% schema %}
+  {
+    "name": "Testimonials",
+    "class": "index-testimonials",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title"
+      },
+      {
+        "type": "textarea",
+        "id": "content",
+        "label": "Content"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "logo",
+        "name": "Logo",
+        "limit": 12,
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "logo",
+            "label": "Logo"
+          },
+          {
+            "type": "url",
+            "id": "url",
+            "label": "Url"
+          }
+        ]
+      },
+      {
+        "type": "testimonial",
+        "name": "Testimonial",
+        "limit": 6,
+        "settings": [
+          {
+            "type": "textarea",
+            "id": "content",
+            "label": "Content"
+          },
+          {
+            "type": "text",
+            "id": "author",
+            "label": "Author"
+          },
+          {
+            "type": "image_picker",
+            "id": "portrait",
+            "label": "Portrait"
+          },
+          {
+            "type": "text",
+            "id": "author_desc",
+            "label": "Author description"
+          }
+        ]
+      }
+    ],
+    "presets": [{
+        "name": "Testimonials",
+        "category": "Front Page"
+    }]
+  }
+{% endschema %}
+

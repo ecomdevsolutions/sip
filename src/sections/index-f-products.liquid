@@ -1,0 +1,68 @@
+{% if section.settings.collection %}
+  <div class="container index-f-products__container">
+    {% if section.settings.title %}
+      <h2 class="index-f-products__title">{{ section.settings.title }}</h2>
+    {% endif %}
+    <div class="row index-f-products__row">
+      {% for f_product in collections[section.settings.collection].products limit: section.settings.product_num %}
+        <div class="col-lg-3 col-6 index-f-products__col">
+          {% include 'product-item' with product_item: f_product %}
+        </div>
+      {% endfor %}
+    </div>
+
+    {% if section.settings.link_text %}
+      <div class="index-f-products__more-wrap">
+        <a href="{{ section.settings.link_url }}" class="index-f-products__more-link">
+          <span class="index-f-products__more-text">{{ section.settings.link_text }}</span>
+          <span class="index-f-products__more-arrow">&#x2192;</span>
+        </a>
+      </div>
+    {% endif %}
+  </div>
+{% endif %}
+
+
+{% schema %}
+  {
+    "name": "Featured Products",
+    "class": "index-f-products",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title"
+      },
+      {
+        "type": "text",
+        "id": "link_text",
+        "label": "More link text",
+        "info": "Bottom Link text. Remove text to hide this link."
+      },
+      {
+        "type": "url",
+        "id": "link_url",
+        "label": "More link url"
+      },
+      {
+        "type": "collection",
+        "id": "collection",
+        "label": "Collection",
+        "info": "Select the collection from which the Featured products will be drawn"
+      },
+      {
+        "type": "range",
+        "id": "product_num",
+        "min": 4,
+        "max": 16,
+        "step": 4,
+        "label": "Number of products",
+        "default": 4
+      }
+    ],
+    "presets": [{
+        "name": "Featured Products",
+        "category": "Front Page"
+    }]
+  }
+{% endschema %}

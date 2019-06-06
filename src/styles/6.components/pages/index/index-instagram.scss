@@ -1,0 +1,7 @@
+.index-instagram {
+  margin: 60px 0 25px;
+
+  &__title {
+    @include section-title-s;
+  }
+}

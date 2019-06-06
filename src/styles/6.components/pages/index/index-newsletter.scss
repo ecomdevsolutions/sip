@@ -1,0 +1,14 @@
+.index-newsletter {
+  margin: 0 0 20px;
+
+  &__title {
+    @include sitka;
+    @include text(36px, 42px, $color-mineshaft);
+    margin: 0 0 20px;
+  }
+
+  &__message {
+    @include lato;
+    @include text(16px, 30px, $color-boulder);
+  }
+}

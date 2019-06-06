@@ -1,0 +1,26 @@
+.index-introduction {
+  margin: 0 0 35px;
+  text-align: center;
+
+  &__title {
+    @include gabriola(700);
+    @include text(26px, 36px, $color-black);
+    max-width: 660px;
+    margin: 0 auto 10px;
+  }
+
+  &__content {
+    @include lato;
+    @include text(18px, 26px, $color-star-dust);
+    max-width: 660px;
+    margin: 0 auto;
+
+    p,
+    li,
+    a {
+      @include lato;
+      @include text(18px, 26px, $color-star-dust);
+      margin: 0;
+    }
+  }
+}

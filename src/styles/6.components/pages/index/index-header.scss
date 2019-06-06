@@ -1,0 +1,100 @@
+.index-header {
+  margin: 0 0 35px;
+
+  [data-index-header] {
+    > .index-header__slide:not(:first-of-type) {
+      display: none;
+    }
+  }
+
+  &__slide {
+    position: relative;
+    display: block;
+    height: 740px;
+    text-align: center;
+  }
+
+  &__bg-wrap {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__bg-image {
+    object-fit: cover;
+  }
+
+  &__title-wrap {
+    position: relative;
+    top: 50%;
+    transform: translate(0, -50%);
+    display: block;
+    text-align: center;
+    margin: 0 auto;
+    max-width: 600px;
+    padding: 0 15px;
+  }
+
+  &__title {
+    @include gabriola;
+    @include text(72px, 90px, $color-mineshaft);
+    position: relative;
+  }
+
+  &__smear {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &__link-wrap {
+    position: relative;
+    top: 50%;
+    display: block;
+  }
+
+  &__link {
+    @include button(main);
+    padding: 15px 65px;
+  }
+
+  .slick-dots {
+    @include no-font-size;
+    position: absolute;
+    bottom: 80px;
+    margin: 0;
+    padding: 0 15px;
+    display: block;
+    text-align: center;
+    width: 100%;
+
+    li {
+      @include no-font-size;
+      display: inline-block;
+      margin: 0 10px;
+      padding: 0;
+    }
+
+    button {
+      @include no-font-size;
+      @include transition(background-color);
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: none;
+      margin: 0;
+      padding: 0;
+      background: none;
+      background-color: $color-tundora;
+    }
+
+    .slick-active {
+      button {
+        background-color: $color-dove-gray;
+      }
+    }
+  }
+}

@@ -1,0 +1,116 @@
+{% if product_item %}
+  <div class="product-item">
+
+    {%- assign current_variant = product_item.selected_or_first_available_variant -%}
+    {%- assign featured_image = current_variant.featured_image | default: product_item.featured_image -%}
+
+    {% form 'product', product_item, data-product-form: '', data-product-handle: product_item.handle, data-enable-history-state: 'true' %}
+      <div class="product-item__img-container">
+        {% include 'responsive-image' with
+          image: featured_image,
+          max_width: 300,
+          max_height: 450,
+          image_attributes: "data-product-featured-image",
+          wrapper_class: "product-item__img-wrap",
+          image_class: "product-item__img"
+          wrapper_attributes: "data-product-image-wrapper",
+        %}
+        <a href="{{ product_item.url }}" class="product-item__link"></a>
+
+        {% assign option_name = "" %}
+        {% unless product_item.has_only_default_variant %}
+          {% for option in product_item.options_with_values %}
+            {% assign option_name = option.name | downcase %}
+            {% if option_name contains "size" %}
+              <div class="product-item__size-wrap" data-custom-select>
+                <div class="product-item__size-styled" data-custom-select-free data-custom-select-styled>
+                  {{ 'products.product.see_available' | t }}
+                </div>
+                <ul class="product-item__size-options" style="display: none;" data-custom-select-options>
+                  {% for value in option.values %}
+                    <li class="product-item__size-option">
+                      {% assign variant_id = "" %}
+                      {% assign variant_available = false %}
+                      {% for variant in product_item.variants %}
+                        {% if variant.title == value %}
+                          {% assign variant_id = variant.id %}
+                          {% if variant.available %}
+                            {% assign variant_available = true %}
+                          {% endif %}
+                        {% endif %}
+                      {% endfor %}
+                      <input
+                        type="radio"
+                        class="product-item__size-input"
+                        id="Option{{ option.position }}-{{ value }}-pid-{{ product_item.id }}"
+                        name="id"
+                        {% unless variant_available %}disabled=disabled{% endunless %}
+                        value="{{ variant_id }}"{% if option.selected_value == value %} checked{% endif %} />
+                      <label
+                        class="product-item__size-label {% unless variant_available %}unavailable{% endunless %}"
+                        for="Option{{ option.position }}-{{ value }}-pid-{{ product_item.id }}">
+                        {{ value }}
+                        </label>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% endunless %}
+
+        <noscript>
+          <select name="id">
+            {% for variant in product_item.variants %}
+              <option
+                {% if variant == current_variant %}selected="selected"{% endif %}
+                {% unless variant.available %}disabled="disabled"{% endunless %}
+                value="{{ variant.id }}">
+                  {{ variant.title }}
+              </option>
+            {% endfor %}
+          </select>
+        </noscript>
+
+        {% if current_variant.available %}
+          <button
+            type="submit"
+            name="add"
+            class="product-item__submit"
+            data-submit-button>
+            <span>{{ 'products.product.add_to_bag' | t }}</span>
+            <span>&#x2192;</span>
+          </button>
+        {% else %}
+        {% endif %}
+      </div>
+
+      <input type="hidden" id="Quantity" name="quantity" value="1" min="1">
+
+    {% endform %}
+
+    <div class="product-item__title-bar">
+      <a class="product-item__title" href="{{ product_item.url }}">{{ product_item.title }}</a>
+      {% comment %} TODO - wishlist {% endcomment %}
+      <span class="product-item__wishlist">&#x2661;</span>
+    </div>
+
+    <div class="product-item__price-wrap" data-price-wrapper>
+      <span
+        data-product-price
+        class="product-item__price {% if product_item.compare_at_price_max > product_item.price %}discounted{% endif %}">
+        {{ current_variant.price | money }}
+      </span>
+
+      {% if product_item.compare_at_price_max > product_item.price %}
+        <span class="visually-hidden" data-compare-text>{{ 'products.product.regular_price' | t }}</span>
+        <s class="product-item__price-compare" data-compare-price>
+          {% if current_variant.compare_at_price > current_variant.price %}
+            {{ current_variant.compare_at_price | money }}
+          {% endif %}
+        </s>
+      {% endif %}
+    </div>
+
+  </div>
+{% endif %}

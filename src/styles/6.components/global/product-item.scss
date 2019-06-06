@@ -1,0 +1,193 @@
+.product-item {
+  position: relative;
+
+  &__img-container {
+    position: relative;
+    margin: 0 0 15px;
+
+    &:hover,
+    &:active {
+      .product-item__submit {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .product-item__size-wrap {
+        opacity: 1;
+        pointer-events: auto;
+      }
+    }
+  }
+
+  &__link {
+    position: absolute;
+    z-index: $z-product-item;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__submit {
+    @include button(wire);
+    @include transition(opacity, background-color, color);
+    background-color: rgba($color-white, 0.7);
+    position: absolute;
+    z-index: $z-product-item;
+    bottom: 70px;
+    left: 30px;
+    width: calc(100% - 60px);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &__size-wrap {
+    @include transition(opacity);
+    z-index: $z-product-options;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 40px;
+    background-color: $color-mineshaft-21;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &__size-styled {
+    @include lato(500);
+    @include text(18px, 40px, $color-alto-ce);
+    @include transition(all 0.2s ease-in);
+    position: relative;
+    text-align: center;
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    display: block;
+    cursor: pointer;
+
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 100%;
+      width: 100%;
+      height: 5px;
+    }
+  }
+
+  &__size-options {
+    position: absolute;
+    top: calc(100% + 3px);
+    left: 50%;
+    width: 100%;
+    transform: translate(-50%, 0);
+    display: none;
+    margin: 0;
+    padding: 5px;
+    list-style: none;
+    background-color: $color-white;
+    border: 1px solid $color-mineshaft-21;
+  }
+
+  &__size-option {
+    @include transition(color, background-color);
+    position: relative;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    width: 100%;
+
+    &[rel="hide"] {
+      display: none;
+    }
+  }
+
+  &__size-label {
+    @include lato(500);
+    @include text(14px, 18px, $color-mineshaft-21);
+    @include transition(color, background-color);
+    width: 100%;
+    margin: 0 0 5px;
+    padding: 3px 5px;
+    cursor: pointer;
+    display: block;
+
+    &.unavailable {
+      text-decoration: line-through;
+      opacity: 0.7;
+    }
+
+    &:hover,
+    &:active {
+      &:not(.unavailable) {
+        background-color: rgba($color-carnation-pink, 0.2);
+        color: $color-mineshaft-21;
+      }
+    }
+  }
+
+  &__size-input {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+    visibility: hidden;
+    &:checked {
+      + label:not(.unavailable) {
+        background-color: $color-mineshaft-21;
+        color: $color-alto-ce;
+      }
+    }
+  }
+
+  &__title-bar {
+    @include clearfix;
+    margin: 0 0 10px;
+  }
+
+  &__title {
+    @include lato;
+    @include text(18px, 24px, $color-boulder);
+    @include transition(color);
+    float: left;
+    width: calc(100% - 30px);
+    &:hover,
+    &:active {
+      color: $color-mineshaft;
+    }
+  }
+
+  &__wishlist {
+    float: right;
+    width: 20px;
+    text-align: right;
+  }
+
+  &__price-wrap {
+    @include no-font-size;
+    display: block;
+  }
+
+  &__price {
+    @include lato(500);
+    @include text(20px, 24px, $color-boulder);
+
+    &.discounted {
+      font-weight: 700;
+      color: $color-mineshaft;
+    }
+  }
+
+  &__price-compare {
+    @include lato(400);
+    @include text(18px, 24px, $color-boulder);
+    margin: 0 0 0 5px;
+  }
+}

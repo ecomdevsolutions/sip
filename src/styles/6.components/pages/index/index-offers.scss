@@ -1,0 +1,23 @@
+.index-offers {
+  margin: 0 0 85px;
+
+  &__title {
+    @include section-title;
+  }
+
+  @media screen and (min-width: $grid-xl) {
+    &__container {
+      max-width: 1380px;
+    }
+
+    &__row {
+      margin-left: -30px;
+      margin-right: -30px;
+    }
+
+    &__col {
+      padding-left: 30px;
+      padding-right: 30px;
+    }
+  }
+}

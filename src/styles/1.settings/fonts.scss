@@ -1,0 +1,23 @@
+@mixin gabriola($weight: 400, $style: normal) {
+  /*  TODO - replace font with appropriate one, simonetta is gfonts placeholder */
+  font-family: "Simonetta", cursive;
+  font-weight: $weight;
+}
+
+@mixin sitka($weight: 400, $style: normal) {
+  /*  TODO - replace font with appropriate */
+
+  /* Not sure about this one */
+  font-family: "Poppins", sans-serif;
+  font-weight: $weight;
+}
+
+@mixin lato($weight: 400, $style: normal) {
+  font-family: "Lato", sans-serif;
+  font-weight: $weight;
+}
+
+@mixin poppins($weight: 400, $style: normal) {
+  font-family: "Poppins", sans-serif;
+  font-weight: $weight;
+}
