@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 {%- comment -%}
   This is a required section for the Shopify Theme Store.
   It is available in the "Header" section in the theme editor.
@@ -58,6 +59,14 @@
       </div>
       <div class="col">
         <div class="site-header__contact-wrap">
+		  <div class="conatct_detail">
+  <span class="text3">
+  <a href="tel:940 432 1233"><i class="fa fa-phone"></i>  940 432 1233</a>
+  </span>
+    <span class="text3">
+	<a href="mailto:info@sip.com" target="_top"> <i class="fa fa-envelope-o"></i>  info@sip.com</a>
+  </span>
+  </div>
           <a href="" class="site-header__contact"></a>
         </div>
       </div>
@@ -66,7 +75,7 @@
 
   <div class="site-header__menus">
     <div class="row">
-      <div class="col">
+      <div class="col-md-8 col-sm-8 col-xs-12">
         <nav role="navigation">
           <ul>
             {% for link in linklists[section.settings.menu].links %}
@@ -97,7 +106,19 @@
           </ul>
         </nav>
       </div>
-      <div class="col">
+      <div class="col-md-2 col-sm-2 col-xs-12 RESPONSIVE_NAV">
+	  <ul class="menu_sign_in_sec">
+			<li class="dropdown">
+					  <a class="dropdown-toggle" data-toggle="dropdown" href="#">Sign In<span class="caret"></span></a>
+					  <ul class="dropdown-menu">
+						<li><button type="button" class="btn">Basic</button></li>
+						<li><button type="button" class="btn btn-default">Default</button></li>
+						<li><a href="#"><i class="fa fa-map-marker" aria-hidden="true"></i>    Track Your Order</a></li>
+						 <li><a href="#"><i class="fa fa-repeat" aria-hidden="true"></i>  Initiate a Return</a></li>
+					  </ul>
+					</li>
+	  </ul>
+	  {% comment %}
         {% if shop.customer_accounts_enabled %}
           {% if customer %}
             <a href="/account">{{ 'layout.customer.account' | t }}</a>
@@ -105,9 +126,10 @@
             {{ 'layout.customer.log_in' | t | customer_login_link }}
           {% endif %}
         {% endif %}
+		{% endcomment %}
       </div>
-      <div class="col">
-        <button class="site-header__utility-link" type="button"></button>
+      <div class="col-md-2 col-sm-2 col-xs-12 RESPONSIVE_NAV">
+        {% comment %} <button class="site-header__utility-link" type="button"></button>
         <form action="/search" method="get" role="search" class="">
           <label for="Search-{{ section.id }}" class="label-hidden">
             {{ 'general.search.placeholder' | t }}
@@ -124,6 +146,7 @@
             <span class="icon-fallback-text">{{ 'general.search.submit' | t }}</span>
           </button>
         </form>
+		{% endcomment %}
         {% comment %} TODO - wishlist {% endcomment %}
         <a href="#" class="site-header__utility-link">&#x2661;</a>
         <a href="/cart" class="site-header__utility-link">
@@ -164,7 +187,7 @@
         "type": "checkbox",
         "id": "announcement_bar_enabled",
         "label": "Show announcement",
-        "default": false
+        "default": true
       },
       {
         "type": "checkbox",
