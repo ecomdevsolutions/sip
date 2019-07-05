@@ -1,5 +1,115 @@
 <footer>
 
+
+	
+
+
+<section class="footer"> 
+<div class="container">
+<div class="row"> 
+
+
+ <div class="footer1 col-sm-6 ourcompny">
+{{ 'footerlogo.png' | asset_url | img_tag: 'footerlogo' }}
+  <h2>OUR COMPNY</h2>
+  <p>Sign up to get thelates on sale, new realesase and more....</p>
+         <div class="newsletter-section{% if section.settings.show_background %} index-section--newsletter-background{% endif %}">
+  <div class="page-width text-center">
+   
+    {% form 'customer' %}
+      {{ form.errors | default_errors }}
+      {% if form.posted_successfully? %}
+        <p class="form--success">{{ 'general.newsletter_form.confirmation' | t }}</p>
+		
+      {% else %}
+        <div id="foter_news" class="input-group password__input-group">
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <input type="email"
+            name="contact[email]"
+            id="Email"
+            class="input-group__field newsletter__input"
+            value="{% if customer %}{{ customer.email }}{% endif %}"
+            placeholder="Enter your email address"
+            autocorrect="off"
+            autocapitalize="off">
+          <span class="input-group__btn">
+            <i class="fa fa-paper-plane" aria-hidden="true"></i>
+          </span>
+        </div>
+      {% endif %}
+    {% endform %}
+  </div>
+</div>
+
+	 </div>
+  <div class="foote5 col-sm-1">
+ </div>
+
+  
+   <div class="ourcompny col-sm-3">
+   <h2>OUR COMPNY</h2>
+                        <li><a href="index.html">clothing</a></li>
+			 	        <li><a href="how big!.html"> valentines</a></li>
+				 	    <li><a href="log in.html"> dresses</a></li>
+					    <li><a href="contact us.html"> spring</a></li>
+						<li><a href="contact us.html"> mom & me</a></li>
+						<li><a href="contact us.html">daily deals</a></li>
+						<li><a href="contact us.html">accossories</a></li>
+						<li><a href="contact us.html">clearence</a></li>
+						<li><a href="contact us.html">info</a></li>
+   </div>
+   
+    
+   <div class="ourcompny  col-sm-2">
+    <h2>OUR SERVICE</h2>
+					    <li><a href="index.html">clothing</a></li>
+			 	        <li><a href="how big!.html"> valentines</a></li>
+				   	    <li><a href="log in.html"> dresses</a></li>
+					    <li><a href="contact us.html"> spring</a></li>
+						<li><a href="contact us.html"> mom & me</a></li>
+						<li><a href="contact us.html">daily deals</a></li>
+						<li><a href="contact us.html">accossories</a></li>
+						<li><a href="contact us.html">clearence</a></li>
+						<li><a href="contact us.html">info</a></li>
+   </div>
+   </div>
+   <div class="border_sssce">
+   <div class="row">
+
+     <div class="copy_right col-sm-6">
+    <small>{{ 'layout.footer.copyright' | t }} &copy; {{ 'now' | date: "%Y" }}, {{ shop.name | link_to: '/' }}. {{ powered_by_link }}</small>
+  </div>
+
+      <div class="foote5 col-sm-3">
+ </div>
+  <div class="copy_socialm_sec col-sm-3">
+    {%- assign social_accounts = 'Facebook, Twitter, Pinterest, Instagram, Snapchat, Tumblr, YouTube, Vimeo,' | split: ', ' -%}
+  <ul>
+    {% for social in social_accounts %}
+      {%- assign social_handle = social | handleize -%}
+      {% capture social_link %}social_{{ social_handle }}_link{% endcapture %}
+      {% capture social_icon %}icon-{{ social_handle }}{% endcapture %}
+
+      {% if settings[social_link] != blank %}
+        <li>
+          <a href="{{ settings[social_link] }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: social }}">
+            {% include social_icon %}
+            <span class="icon-fallback-text">{{ social }}</span>
+          </a>
+        </li>
+      {% endif %}
+
+    {% endfor %}
+  </ul>
+  </div>
+   </div>
+   </div>
+   </div>
+ </section>
+ 
+ 
+ {% comment %}
+ 
   {%- assign social_accounts = 'Facebook, Twitter, Pinterest, Instagram, Snapchat, Tumblr, YouTube, Vimeo,' | split: ', ' -%}
   <ul>
     {% for social in social_accounts %}
@@ -45,7 +155,7 @@
     <small>{{ 'layout.footer.copyright' | t }} &copy; {{ 'now' | date: "%Y" }}, {{ shop.name | link_to: '/' }}. {{ powered_by_link }}</small>
   </div>
 </footer>
-
+{% endcomment %}
 {% schema %}
   {
     "name": "Footer",

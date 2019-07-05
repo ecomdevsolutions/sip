@@ -1,102 +1,233 @@
-{% paginate collection.products by 12 %}
-  <header role="banner">
-    <h1>{{ collection.title }}</h1>
-    {% if collection.description != blank %}
-      <div class="rte">
-        {{ collection.description }}
-      </div>
-    {% endif %}
-
-    {% if collection.all_tags.size > 0 %}
-      <ul>
-        {% for tag in collection.all_tags %}
-          {% if current_tags contains tag %}
-            <li class="active">
-              {{ tag | link_to_remove_tag: tag }}
-            </li>
-          {% else %}
-            <li>
-              {{ tag | link_to_tag: tag }}
-            </li>
-          {% endif %}
-        {% endfor %}
-      </ul>
-    {% endif %}
+<header role="banner ">
+  <div class="bannre_text_collection">
+{{ 'collection-banner.jpg' | asset_url | img_tag: 'collection-banner' }}
+    <h1>{{ collection.title }} <br> <span>{% include 'breadcrumbs' %}</span> </h1>
+	
+	</div>
   </header>
 
-  <div>
-    {% for product in collection.products %}
-      <div>
-        {% if product.featured_image != blank %}
-          <a href="{{ product.url | within: collection }}">
-            {% include 'responsive-image' with
-              image: product.featured_image,
-              max_width: 700,
-              max_height: 800
-            %}
-          </a>
-        {% endif %}
+<div class="border_sec">
+<div class="container">
+{% paginate collection.products by 16 %}
 
-        <p>
-          <a href="{{ product.url | within: collection }}">{{ product.title }}</a>
-        </p>
-        <p>
-          {% if product.compare_at_price > product.price %}
+<div class="row">
+<div class="col-sm-3 filter-sidebar ">
+<div id="bc-sf-filter-tree-mobile"></div>
+<div id="bc-sf-filter-tree"></div>
 
-            {% if product.price_varies %}
-              {%- assign sale_price = product.price | money -%}
-              {{ 'products.product.on_sale_from_html' | t: price: sale_price }}
-            {% else %}
-              {{ 'products.product.on_sale' | t }}
-              {{ product.price | money }}
-            {% endif %}
+<div id="y-embedded-widget" class="yotpo embedded-widget" 
+data-appkey="wzEo5Y9prJgJeGbube6Y0IuJfXjogzBjiNxfJmyC" 
+data-product-id="top_rated_products" 
+data-layout="pictures" 
+data-width="100" 
+data-reviews="5"
+data-price="10"
+data-header-text="Top Rated Products" 
+data-header-background-color="919191" 
+data-body-background-color="FFFFFF" 
+data-font-size="18" 
+data-font-color="FFFFFF">&nbsp;</div>
 
-          {% else %}
+<ul class="subnav clearfix">
+  <li{% unless current_tags %} class="active"{% endunless %}>
+    {% if collection.handle %}
+    <a href="/collections/{{ collection.handle }}{% if collection.sort_by %}?sort_by={{ collection.sort_by }}{% endif %}">All</a>
+    {% elsif collection.current_type %}
+    <a href="{{ collection.current_type | url_for_type | sort_by: collection.sort_by }}">All</a>
+    {% elsif collection.current_vendor %}
+    <a href="{{ collection.current_vendor | url_for_vendor | sort_by: collection.sort_by }}">All</a>
+    {% endif %}
+  </li>
+  {% for tag in collection.all_tags %}
+  {% if current_tags contains tag %}
+  <li class="active">
+    {{ tag | link_to_remove_tag: tag }}
+  </li>
+  {% else %}
+  <li>
+    {{ tag | link_to_tag: tag }}
+  </li>
+  {% endif %}
+  {% endfor %}
+</ul>
+<style>
+/* Contain floats: nicolasgallagher.com/micro-clearfix-hack/ */
+.clearfix:before, .clearfix:after { content: ""; display: table; }
+.clearfix:after { clear: both; }
+.clearfix { zoom: 1; }
+/* Subnavigation styles */
+.subnav { clear: both; list-style-type: none; margin: 35px 0; padding: 0; }
+.subnav li { display: block; float: left; }
+.subnav li a {
+  display: block;
+  height: 28px;
+  line-height: 28px;
+  padding: 0 7px;
+  -webkit-border-radius: 7px;
+  -moz-border-radius: 7px;
+  border-radius: 7px;
+  background: #eee;
+  margin: 0 7px 7px 0;
+  color: #666;
+}
+.subnav li a:hover, .subnav li.active a {
+  background: #666;
+  color: #fff;
+}
+.bannre_text_collection h1 span a, .bannre_text_collection h1 span {
+    color: #333 !important;
+    font-size: 22px;
+    text-align: center;
+    font-weight: normal;
+}
+</style>
+</div>
+<div class="col-sm-9 right_side_bar">
 
-            {% if product.price_varies %}
-              {%- assign price = product.price | money -%}
-              {{ 'products.product.from_text_html' | t: price: price }}
-            {% else %}
-              {{ product.price | money }}
-            {% endif %}
+<h2>Shop</h2>
 
-          {% endif %}
+<div class="main-header-block">
+<div class="header-block">
+	<div class="top-left-sort">
+	<span>13 Products Found	</span>
+	</div>
+	<div id="bc-sf-filter-top-sorting"></div>
+		<!---div class="right-icons-block">
+		<div class="right-icons"><a href=""><i class="fa fa-th-large"></i></a></div>
+		<div class="right-icons"><a href=""><i class="fa fa-bars"></i></a></div>
+		
+		</div-->
+</div>
+</div>
 
-          {% if product.compare_at_price > product.price %}
-            <span class="visually-hidden">{{ 'products.product.regular_price' | t }}</span>
-            <s>{{ product.compare_at_price | money }}</s>
-          {% endif %}
 
-          {% unless product.available %}
-            {{ 'products.product.sold_out' | t }}
-          {% endunless %}
-        </p>
+  <div class="container index-f-products__container">
+    {% if section.settings.title %}
+      <h2 class="index-f-products__title">{{ section.settings.title }}</h2>
+    {% endif %}
+	
+    <div id="bc-sf-filter-products"   class="row index-f-products__row">
+      {% for f_product in collection.products limit: 36 %}
+        <div class="col-lg-3 col-6 index-f-products__col" >
+          {% include 'product-item' with product_item: f_product %}
+        </div>
+      {% endfor %}
+    </div>
+	<div id="bc-sf-filter-products"   class="row index-f-products__row" style="display:none">
+      {% for f_product in collection.products limit: 1 %}
+		<div class="col-lg-12 index-f-products__col">
+          {% include 'product-item-full-width' with product_item: f_product %}
+        </div>
+      {% endfor %}
+    </div>
+<script>
+ jQuery(document).ready(function() {
+jQuery('.js_filter_drop').click(function(){
+		jQuery(this).siblings('.product-item__size-options').toggle('slow');
+	});
+	});
+</script>
+    {% if section.settings.link_text %}
+      <div class="index-f-products__more-wrap">
+        <a href="{{ section.settings.link_url }}" class="index-f-products__more-link">
+          <span class="index-f-products__more-text">{{ section.settings.link_text }}</span>
+          <span class="index-f-products__more-arrow">&#x2192;</span>
+        </a>
       </div>
-
-    {% else %}
-      {% if collection.handle == 'all' and collection.all_vendors.size == 0 and collection.all_types.size == 0 %}
-        {% for i in (1..8) %}
-          <a href="#">
-            {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
-            {{ 'product-' | append: current | placeholder_svg_tag: 'placeholder-svg placeholder-svg--small' }}
-          </a>
-
-          <p>
-            <a href="#">{{ 'homepage.onboarding.product_title' | t }}</a>
-          </p>
-
-          <p>
-            {{ 1999 | money }}
-          </p>
-        {% endfor %}
-      {% else %}
-        <p>{{ 'collections.general.no_matches' | t }}</p>
-      {% endif %}
-
-    {% endfor %}
+    {% endif %}
   </div>
+  <div id="bc-sf-filter-bottom-pagination" style="display:none !important;"></div>
+<div class="pagination_sec">
+  
 
   {% if paginate.pages > 1 %}
-    {% include 'pagination' %}
+    {% include 'pagination' %} 
+
   {% endif %}
+
+
+</div>
+
+
+
+</div>
+
+
+</div>
+
 {% endpaginate %}
+
+</div>
+<div class="container">
+
+<div class="recent_product">
+  <h2 class="index-offers__title">Recently Viewed Items</h2>
+  <div class="row">
+  {% for product in collections.all.products | limit:4 %}
+  <div class="col-lg-3 col-6 index-f-products__col">
+	{% include 'product-item' with product_item: product %}
+  </div>
+  {% endfor %}
+</div>
+</div>
+
+
+<div class="related_product">
+	<h2 class="index-offers__title wer ioufifkih">Recommended For You</h2>
+    <div class="row">
+		{% for product in collections.recommended.products limit: product_limit %}  
+			<div class="col-lg-3 col-6 index-f-products__col">
+				{% include 'product-item' with product_item: product %}
+			</div>
+		{% endfor %}
+	</div>
+</div>
+
+
+
+
+<div class="related_product">
+  <h2 class="index-offers__title">Most popular in this collection</h2>
+  <div class="row">
+	  {% for product in collections.best-selling.products limit: product_limit %}
+		<div class="col-lg-3 col-6 index-f-products__col">
+			{% include 'product-item' with product_item: product %}
+		</div>
+	  {% endfor %}
+  </div>
+</div>
+
+
+</div>
+</div>
+
+
+
+
+
+<script>
+  // Declare bcSfFilterConfig variable
+  var bcSfFilterConfig = {
+    label: {
+      sorting: {% assign temp = 'collections.sorting.title' | t  %} {% unless temp contains 'translation missing'  %} "{{ temp }}" {% else %} "Sorting" {% endunless %},
+      sorting_best_selling: {% assign temp = 'collections.sorting.best_selling' | t %} {% unless temp contains 'translation missing'  %} "{{ temp }}" {% else %} "Best Selling" {% endunless %},
+      sorting_featured: {% assign temp = 'collections.sorting.featured' | t %} {% unless temp contains 'translation missing'  %} "{{ temp }}" {% else %} "Featured" {% endunless %},
+      sorting_title_ascending: {% assign temp = 'collections.sorting.az' | t %} {% unless temp contains 'translation missing'  %} "{{ temp }}" {% else %} "Alphabetically, A-Z" {% endunless %},
+      sorting_title_descending: {% assign temp = 'collections.sorting.za' | t %} {% unless temp contains 'translation missing'  %} "{{ temp }}" {% else %} "Alphabetically, Z-A" {% endunless %},
+      sorting_price_ascending: {% assign temp = 'collections.sorting.price_ascending' | t %} {% unless temp contains 'translation missing'  %} "{{ temp }}" {% else %} "Lowest Price" {% endunless %},
+      sorting_price_descending: {% assign temp = 'collections.sorting.price_descending' | t %} {% unless temp contains 'translation missing'  %} "{{ temp }}" {% else %} "Highest Price" {% endunless %},
+      sorting_date_ascending: {% assign temp = 'collections.sorting.date_ascending' | t %} {% unless temp contains 'translation missing'  %} "{{ temp }}" {% else %} "Date, Old to New" {% endunless %},
+      sorting_date_descending: {% assign temp = 'collections.sorting.date_descending' | t %} {% unless temp contains 'translation missing'  %} "{{ temp }}" {% else %} "Date, New to Old" {% endunless %},
+      sorting_sale_descending: {% assign temp = 'collections.sorting.sale_descending' | t %} {% unless temp contains 'translation missing'  %} "{{ temp }}" {% else %} "% Off" {% endunless %},
+      sorting_relevance: {% assign temp = 'collections.sorting.relevance' | t %} {% unless temp contains 'translation missing'  %} "{{ temp }}" {% else %} "Relevance" {% endunless %},
+      search_general_title: {% assign temp = 'product_filter_search.search_general_title' | t %} {% unless temp contains 'translation missing'  %} "{{ temp }}" {% else %} 'Search' {% endunless %},
+      search_result_header: {% assign temp = 'product_filter_search.search_result_header' | t %} {% unless temp contains 'translation missing'  %} "{{ temp }}" {% else %} {% raw %}'Search Results for "{{ terms }}"'{% endraw %} {% endunless %},
+      search_result_empty: {% assign temp = 'product_filter_search.search_result_empty' | t %} {% unless temp contains 'translation missing'  %} "{{ temp }}" {% else %} {% raw %}'Your search for "{{ terms }}"" didn\'t match any results'{% endraw %} {% endunless %},
+      search_result_number: {% assign temp = 'product_filter_search.search_result_number' | t %} {% unless temp contains 'translation missing'  %} "{{ temp }}" {% else %} {% raw %}'Showing {{ count }} results for "{{ terms }}"'{% endraw %} {% endunless %},
+    },
+    custom: {
+    }
+  };
+   
+</script>
+

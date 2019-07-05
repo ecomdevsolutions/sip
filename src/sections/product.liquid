@@ -1,4 +1,18 @@
+
+<div class="cart_listing_sce">
+<div class="text">
+<div class="container">
+{% include 'breadcrumbs' %}
+
+</div>
+</div>
+<div class="container">
+<div class="row">
+<div class="col-sm-6">
+<div class="prodect_img_cart">
 <section data-section-id="{{ section.id }}" data-section-type="product">
+
+<div class="img_product single_img">
 
   {%- assign current_variant = product.selected_or_first_available_variant -%}
   {%- assign featured_image = current_variant.featured_image | default: product.featured_image -%}
@@ -18,114 +32,228 @@
       wrapper_class: wrapper_class,
       wrapper_attributes: "data-product-image-wrapper",
     %}
+	
   {% endfor %}
+<div class="gallery_img">
 
+  {% if section.settings.show_share_buttons %}
+    {% include 'social-sharing', share_title: product.title, share_permalink: product.url, share_image: product %}
+  {% endif %}
+  </div>
+</div>
   {% if product.images.size > 1 %}
     <ul>
       {% for image in product.images %}
         <li>
-          <a href="{{ image.src | img_url: '480x480' }}" data-thumbnail-id="{{ image.id }}" data-product-single-thumbnail{% if featured_image == image %} aria-current="true"{% endif %}>
-            <img class="product-single__thumbnail-image" src="{{ image.src | img_url: '160x160' }}" alt="{{ image.alt | escape }}">
+          <a data-thumbnail-id="{{ image.id }}" data-product-single-thumbnail{% if featured_image == image %} aria-current="true"{% endif %}>
+            <img class="product-single__thumbnail-image galry_img" src="{{ image.src | img_url: '160x160' }}" alt="{{ image.alt | escape }}" data="{{ image.src | img_url: '480x480' }}">
           </a>
         </li>
       {% endfor %}
     </ul>
   {% endif %}
-
+  </div>
+  </div>
+<div class="col-md-6">
+<div class="text_img_cart">
   <h1>{{ product.title }}</h1>
-  <p>{{ product.vendor }}</p>
-
-
-  {% form 'product', product, data-product-form: '', data-product-handle: product.handle, data-enable-history-state: 'true' %}
-    {% unless product.has_only_default_variant %}
-      {% for option in product.options_with_values %}
-        <div class="js">
-
-          {% if forloop.index0 > 0 %}
-
-            {% for value in option.values %}
-              <input type="radio" id="Option{{ option.position }}-{{ value }}" name="options[{{ option.name }}]" value="{{ value }}"{% if option.selected_value == value %} checked{% endif %}>
-              <label for="Option{{ option.position }}-{{ value }}">{{ value }}</label>
-            {% endfor %}
-
-          {% else %}
-
-            <label for="Option{{ option.position }}">
-              {{ option.name }}
-            </label>
-
-            <select
-              id="Option{{ option.position }}"
-              name="options[{{ option.name | escape }}]">
-              {% for value in option.values %}
-                <option
-                  value="{{ value | escape }}"
-                  {% if option.selected_value == value %}selected="selected"{% endif %}>
-                    {{ value }}
-                </option>
-              {% endfor %}
-            </select>
-
-          {% endif %}
-        </div>
-      {% endfor %}
-    {% endunless %}
-
-    <noscript>
-      <select name="id">
-        {% for variant in product.variants %}
-          <option
-            {% if variant == current_variant %}selected="selected"{% endif %}
-            {% unless variant.available %}disabled="disabled"{% endunless %}
-            value="{{ variant.id }}">
-              {{ variant.title }}
-          </option>
-        {% endfor %}
-      </select>
-    </noscript>
-
-    <label for="Quantity">{{ 'products.product.quantity' | t }}</label>
-    <input type="number" id="Quantity" name="quantity" value="1" min="1">
-
-    <div data-price-wrapper>
-      <span data-product-price>
+  <span data-product-price>
         {{ current_variant.price | money }}
       </span>
+     <!-- Yotpo bottomline -->
+          <div class="yotpo bottomLine"
+  data-product-id="{{ product.id }}">
+</div>
+  <!---p>{{ product.vendor }}</p-->
+ <form class="shopify-product-form" action="/cart/add"
+          method="post"
+          class="clearfix product_form init {% if product.variants.size > 1 or product.options.size > 1 %}product_form_options{% endif %}"
+          id="product-form-{{ product.id }}"
+          data-money-format="{{ shop.money_format }}"
+          data-shop-currency="{{ shop.currency }}"
+          data-select-id="product-select-{{ product.id }}{{ product-form }}{{ section.id }}{{ block.id }}"
+          data-enable-state="{% if template contains 'product' %}true{% else %}false{% endif %}"
+          data-product-id="{{ product.id }}">
 
-      {% if product.compare_at_price_max > product.price %}
-        <span class="visually-hidden" data-compare-text>{{ 'products.product.regular_price' | t }}</span>
-        <s data-compare-price>
-          {% if current_variant.compare_at_price > current_variant.price %}
-            {{ current_variant.compare_at_price | money }}
-          {% endif %}
-        </s>
-      {% endif %}
-    </div>
 
-    <button
-      type="submit"
-      name="add"
-      data-submit-button
-      {% unless current_variant.available %}disabled="disabled"{% endunless %}>
-        <span data-submit-button-text>
-          {% if current_variant.available %}
-            {{ 'products.product.add_to_cart' | t }}
-          {% else %}
-            {{ 'products.product.sold_out' | t }}
-          {% endif %}
-        </span>
-    </button>
-  {% endform %}
+        {% if product.options.size > 1 %}
+             <div class="select" style="display:none">
+                <select id="product-select-{{ product.id }}{{ product-form }}{{ section.id }}{{ block.id }}" name="id"
+                        class="multi_select">
+                    {% for v in product.variants %}
+                        <option value="{{ v.id }}" data-sku="{{ v.sku }}">{{ v.title }}</option>
+                    {% endfor %}
+                </select>
+            </div> 
+        {% elsif product.options.size == 1 and bold_variants_size > 1 or product.options.size == 1 and product.options[0] != "Title" %}
+            <div class="select" style="display:none">
+                <label>{{ product.options[0] }}</label>
+                <select id="product-select-{{ product.id }}{{ product-form }}{{ section.id }}{{ block.id }}" name="id"
+                        class="tertip">
+                    {% for v in product.variants %}
+                  {% include 'bold-variant' with v, hide_action: 'skip' %}
+                        <option {% if v == variant %}selected="selected"{% endif %} value="{{ v.id }}"
+                                data-sku="{{ v.sku }}">{{ v.title }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+       
+        {% else %}
+            <input type="hidden" name="id" value="{{ variant.id }}"/>
+        {% endif %}
 
-  <div class="rte">
-    {{ product.description }}
+
+	 {% if product.available and product.variants.size > 1 %}
+   {% for option in product.options %}
+    {% include 'swatch' with option %}
+  {% endfor %}
+{% endif %}
+        
+           <!--  <div class="nullsExtra">
+                {{ settings.nulls_net_embroidery_question }}
+                <label class="nullsRadioLabel{{ product.id }}"><input type="radio" class="nullsEmRadio{{ product.id }}" name="nullsEmYes{{ product.id }}" value="No" checked>No</label>
+                <label class="nullsRadioLabel{{ product.id }}"><input type="radio" class="nullsEmRadio{{ product.id }}" name="nullsEmYes{{ product.id }}" value="Yes">Yes</label>
+                <div class="nullsEmSlide{{ product.id }}">
+                <div class="nullsEmMessage">{{ settings.nulls_net_embroidery_desc }} (limit {{ settings.nulls_net_embroidery_limit }} characters)<span class="nullsRequired">*</span></div>
+                <div class="nullsEmText"><input type="text" id="nullsEmTextBox{{ product.id }}" class="nullsEmTextBox" maxlength="{{ settings.nulls_net_embroidery_limit }}"></div>
+                <div>{{ settings.nulls_net_embroidery_total }} <span class="nullsEmBold">{{ all_products[settings.nulls_net_embroidery_product].price | money }}</span></div>
+                </div>
+            </div> -->
+            <style>
+                .nullsRadioLabel{{ product.id }}{
+                    font-weight: normal;
+                    text-transform: none;
+                }
+                .nullsEmBold{
+                    font-weight: bold;
+                }
+                .nullsEmSlide{{ product.id }}{
+                    display: none;
+                }
+            </style>
+     
+
+
+
+    
+        <div class="purchase purchase{{ product.id }} clearfix {% if settings.display_product_quantity %}inline_purchase{% endif %}">
+            {% if settings.cart_action == 'reload_page' %}
+                <input type="hidden" name="return_to" value="back"/>
+                {% elsif settings.cart_action == 'redirect_checkout' %}
+                <input type="hidden" name="return_to" value="/checkout"/>
+            {% endif %}
+
+            {% capture add_to_cart_label %}{% if collection_handles contains 'pre-order' %}{{ 'collections.general.pre_order' | t }}{% else %}{{ 'products.product.add_to_cart' | t }}{% endif %}{% endcapture %}
+            <button type="submit" name="add" class="action_button add_to_cart add_to_cart{{ product.id }}"
+                    data-label={{ add_to_cart_label | json }}><span
+                        class=" nullsPick">{{ add_to_cart_label }}</span></button>
+				
+						
+        </div>
+			<div class="sixe_outofstock">
+	<a href="#"> Size out of stock? Click here</a>
+	
+	</div>
+	  <div class="over_order">
+  <p>{{ section.settings.order_overtitle }} <span>More info</span></p>
+  <h6 style="display:none;">{{ section.settings.order_over }}</h6>
   </div>
+    </form>
 
-  {% if section.settings.show_share_buttons %}
-    {% include 'social-sharing', share_title: product.title, share_permalink: product.url, share_image: product %}
-  {% endif %}
+
+
+ <script>
+	 jQuery(document).ready(function(){
+	jQuery('.swatch-element').click(function(){
+		var id = jQuery(this).attr('for');
+		var val = jQuery('#'+id).val();
+		var main_id = jQuery(this).parent('.main_div_swatch').attr('id');
+		
+		jQuery('#'+main_id+' input').removeAttr("checked", "checked");
+		jQuery(this).children('input:radio').attr("checked", "checked");
+			jQuery('.select option').removeAttr('selected');
+	    setTimeout(function(){
+		var the_value = getChecklistItems();
+		
+		jQuery('.select option').filter(function() { 
+		return jQuery.trim( jQuery(this).text() ) == the_value;
+		}).attr('selected',true);
+		},200);
+		
+		function getChecklistItems() {
+	
+		var result = 
+			jQuery(".swatch input:checked").get();
+		
+		var columns = jQuery.map(result, function(element) {
+			return jQuery(element).val();
+		});
+
+		return columns.join(" / ");
+	}
+	});
+	
+	}); 
+
+	
+</script>   
+
+
+  <div class="col-sm-12 three_sec">
+	  <div class="col-sm-4">
+	  <div class="inner_con">
+	  	  <img src="{{ section.settings.sec_imageo | img_url: 'medium' }}" class="three_sec_logo"/>
+		  <h5>{{ section.settings.sec_imageo_title }}</h5>
+	  </div>
+	  </div>
+	  <div class="col-sm-4">
+	  <div class="inner_con">
+		<img src="{{ section.settings.sec_imaget | img_url: 'medium' }}" class="three_sec_logo"/>
+		<h5>{{ section.settings.sec_imaget_title }}</h5>
+	  </div>
+	  </div>
+	  <div class="col-sm-4">
+	  <div class="inner_con">
+		<img src="{{ section.settings.sec_imagett | img_url: 'medium' }}" class="three_sec_logo"/>
+		<h5>{{ section.settings.sec_imagett_title }}</h5>
+	  </div>
+	  </div>
+  </div>
+  <div class="tabs_sec">
+  <ul class="tabs">
+    <li><a href="#tab-1">Description</a></li>
+    <li><a href="#tab-2">Shipping Information</a></li>
+    <li><a href="#tab-3">Reviews</a></li>
+  </ul>
+  <div id="tab-1">
+  {{ product.description }}
+  </div>
+  <div id="tab-2">
+  <p>
+  {{ section.settings.shipping_info }}
+  </p>
+  </div>
+  <div id="tab-3">
+  <div class="yotpo yotpo-main-widget" data-product-id="{{ product.id }}" data-name="{{ product.title | escape }}" data-url="{{ shop.url }}{{ product.url }}" data-image-url="{{ product.featured_image | product_img_url: 'large' |replace: '?', '%3F' | replace: '&','%26'}}" data-description="{{ product.description | escape }}">
+</div>
+  </div>
+</div>
+  
+  
+  
+  
+  
+  
+  
+
 </section>
+</div>
+</div>
+</div>
+</div>
 
+
+</div>
 {% schema %}
   {
     "name": "Product pages",
@@ -135,7 +263,58 @@
         "id": "show_share_buttons",
         "label": "Show social sharing buttons",
         "default": true
-      }
+      },
+	  {
+		"type": "header",
+		"content": "Three Section"
+	  },
+	  {
+		"type": "image_picker",
+		"id": "sec_imageo",
+		"label": "Section one image"
+		},
+		{
+		"type": "text",
+		"id": "sec_imageo_title",
+		"label": "Section title"
+		},
+		{
+		"type": "image_picker",
+		"id": "sec_imaget",
+		"label": "Section Second image"
+		},
+		{
+		"type": "text",
+		"id": "sec_imaget_title",
+		"label": "Section title"
+		},
+		{
+		"type": "image_picker",
+		"id": "sec_imagett",
+		"label": "Section Third image"
+		},
+		{
+		"type": "text",
+		"id": "sec_imagett_title",
+		"label": "Section title"
+		},
+		{
+		"type": "richtext",
+		"id": "shipping_info",
+		"label": "Shipping Tab info"
+		},
+		{
+		"type": "text",
+		"id": "order_overtitle",
+		"label": "Over order title"
+		},
+		{
+		"type": "richtext",
+		"id": "order_over",
+		"label": "Free shipping on over order"
+		}
+	  
     ]
   }
 {% endschema %}
+

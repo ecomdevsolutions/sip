@@ -1,4 +1,76 @@
 {% if product_item %}
+{%- assign current_variant = product_item.selected_or_first_available_variant -%}
+    {%- assign featured_image = current_variant.featured_image | default: product_item.featured_image -%}
+
+    {% form 'product', product_item, data-product-form: '', data-product-handle: product_item.handle, data-enable-history-state: 'true' %}
+	<div class="product-list-view list-view-block"> 
+		<ul>
+			<li class="product-list products grid__item">
+			<div class="product-container">
+			  <a href="{{ product_item.url }}" class="grid-link">
+				<div class="grid-link__image grid-link__image--product">
+				  
+					<div class="reveal"> 
+						<span class="product-additional">      
+						 	{% include 'responsive-image' with
+							  image: featured_image,
+							  max_width: 300,
+							  max_height: 450,
+							  image_attributes: "data-product-featured-image",
+							  wrapper_class: "product-item__img-wrap",
+							  image_class: "product-item__img"
+							  wrapper_attributes: "data-product-image-wrapper",
+							%}
+						</span>
+						
+					</div> 
+			  
+			  
+			  
+			  
+				</div>
+			  </a>
+			  
+			</div>
+			
+			<div class="grid__item wide--two-thirds post-large--two-thirds  large--two-thirds  medium--two-thirds  small--two-thirds ">
+    <div class="product-detail">
+      <a href="{{ product_item.url }}" class="grid-link__title">{{ product_item.title }}</a>   
+	{% comment %} TODO - wishlist {% endcomment %}	  
+      <div class="grid-link__meta">
+        <div class="product_price">
+          
+          <div class="grid-link__org_price">
+            {{ current_variant.price | money }}
+          </div>        
+          
+        </div>      
+       
+ 
+      </div>
+      <p><span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui official.</span></p>
+      
+
+
+          {% if current_variant.available %}
+      <form action="" method="post" class="variants clearfix" id="cart-form-1961819504740">                                    
+        <a class="add-cart-btn btn" title="Add to Cart">
+         {{ 'products.product.add_to_bag' | t }} <span>&#x2192;</span>
+        </a>
+      </form>  
+       {% else %}
+        {% endif %}
+             <input type="hidden" id="Quantity" name="quantity" value="1" min="1">
+
+            {% endform %}
+       
+    </div>
+  </div>
+  
+			</li>
+
+	</div> 
+<!--{% if product_item %}
   <div class="product-item">
 
     {%- assign current_variant = product_item.selected_or_first_available_variant -%}
@@ -112,8 +184,6 @@
         </s>
       {% endif %}
     </div>
-	<div class="yotpo bottomLine"
-  data-product-id="{{ product_item.id }}">
-</div>
+
   </div>
-{% endif %}
+{% endif %}-->

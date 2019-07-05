@@ -31,7 +31,7 @@
       <div class="col">
         <div class="site-header__rewards">
           <h4 class="site-header__rewards-title">GET REWARDED</h4>
-          <p class="site-header__rewards-text">with our loyalty program</p>
+          <p class="site-header__rewards-text">with our <span style="color:#ffa5b4;"> loyalty program </span></p>
         </div>
       </div>
       <div class="col">
@@ -76,7 +76,76 @@
   <div class="site-header__menus">
     <div class="row">
       <div class="col-md-8 col-sm-8 col-xs-12">
-        <nav role="navigation">
+        
+      </div>
+      <div class="col-md-2 col-sm-2 col-xs-12 RESPONSIVE_NAV">
+	  <ul class="menu_sign_in_sec">
+			<li class="dropdown" style="width: 23%; float: right;">
+					  <a class="dropdown-toggle" data-toggle="dropdown"  style="cursor-pointer:none;">Sign In<span class="caret"></span></a>
+					  <ul class="dropdown-menu">
+					  {% if customer %}
+						<li><button type="button" class="btn"><a href="/account/login" style="color:#fff;">Sign In</a></button></li>
+						<li><button type="button" class="btn btn-default"><a href="/account/register">Sign Up</a></button></li>
+						{% else %}
+						<li><button type="button" class="btn btn-default"><a href="/account/">Account</a></button></li>
+						{% endif %}
+						<li><a href="#"><i class="fa fa-map-marker" aria-hidden="true"></i>    Track Your Order</a></li>
+						 <li><a href="#"><i class="fa fa-repeat" aria-hidden="true"></i>  Initiate a Return</a></li>
+					  </ul>
+					</li>
+	  </ul>
+	  {% comment %}
+        {% if shop.customer_accounts_enabled %}
+          {% if customer %}
+            <a href="/account">{{ 'layout.customer.account' | t }}</a>
+          {% else %}
+            {{ 'layout.customer.log_in' | t | customer_login_link }}
+          {% endif %}
+        {% endif %}
+		{% endcomment %}
+      </div>
+      <div class="col-md-2 col-sm-2 col-xs-12 search_icon">
+        {% comment %} <button class="site-header__utility-link" type="button"></button>
+        
+		{% endcomment %}
+        {% comment %} TODO - wishlist {% endcomment %}
+		<ul>
+		<a href="#"><i class="fa fa-search search_sectin" aria-hidden="true"></i></a>
+		<div class="search_sec" style="display:none;">
+		<div class="search_inner">
+		<div class="close_icon">
+		{% include 'icon-close' %}
+		</div>
+		<form action="/search" method="get" role="search" class="">
+          <label for="Search-{{ section.id }}" class="label-hidden">
+            {{ 'general.search.placeholder' | t }}
+          </label>
+			<div class="inner_div">
+          <input type="search"
+            name="q"
+            id="Search-{{ section.id }}"
+            value="{{ search.terms | escape }}"
+            placeholder="Search">
+
+          <button type="submit" class="button">
+            {% include 'icon-search' %}
+            <!--span class="icon-fallback-text">{{ 'general.search.submit' | t }}</span--->
+          </button>
+		  </div>
+        </form>
+		
+		</div>
+		</div>
+        <a id="mi_wish" href="#swym-wishlist" class="site-header__utility-link"><img src="https://img.icons8.com/material-sharp/24/000000/like.png"></a>
+        <a href="#" class="site-header__utility-link mini_cart_icon">
+          {% include 'icon-cart' %}
+          <div class="cart_count">{{ cart.item_count }}</div>
+        </a>
+		</ul>
+      </div>
+<div class="col-md-12 menu_imain_Sec">
+
+<nav role="navigation">
           <ul>
             {% for link in linklists[section.settings.menu].links %}
               {% if link.links != blank %}
@@ -105,65 +174,80 @@
             {% endfor %}
           </ul>
         </nav>
-      </div>
-      <div class="col-md-2 col-sm-2 col-xs-12 RESPONSIVE_NAV">
-	  <ul class="menu_sign_in_sec">
-			<li class="dropdown">
-					  <a class="dropdown-toggle" data-toggle="dropdown" href="#">Sign In<span class="caret"></span></a>
-					  <ul class="dropdown-menu">
-						<li><button type="button" class="btn">Basic</button></li>
-						<li><button type="button" class="btn btn-default">Default</button></li>
-						<li><a href="#"><i class="fa fa-map-marker" aria-hidden="true"></i>    Track Your Order</a></li>
-						 <li><a href="#"><i class="fa fa-repeat" aria-hidden="true"></i>  Initiate a Return</a></li>
-					  </ul>
-					</li>
-	  </ul>
-	  {% comment %}
-        {% if shop.customer_accounts_enabled %}
-          {% if customer %}
-            <a href="/account">{{ 'layout.customer.account' | t }}</a>
-          {% else %}
-            {{ 'layout.customer.log_in' | t | customer_login_link }}
-          {% endif %}
-        {% endif %}
-		{% endcomment %}
-      </div>
-      <div class="col-md-2 col-sm-2 col-xs-12 RESPONSIVE_NAV">
-        {% comment %} <button class="site-header__utility-link" type="button"></button>
-        <form action="/search" method="get" role="search" class="">
-          <label for="Search-{{ section.id }}" class="label-hidden">
-            {{ 'general.search.placeholder' | t }}
-          </label>
-
-          <input type="search"
-            name="q"
-            id="Search-{{ section.id }}"
-            value="{{ search.terms | escape }}"
-            placeholder="{{ 'general.search.placeholder' | t }}">
-
-          <button type="submit" class="button">
-            {% include 'icon-search' %}
-            <span class="icon-fallback-text">{{ 'general.search.submit' | t }}</span>
-          </button>
-        </form>
-		{% endcomment %}
-        {% comment %} TODO - wishlist {% endcomment %}
-        <a href="#" class="site-header__utility-link">&#x2661;</a>
-        <a href="/cart" class="site-header__utility-link">
-          {% include 'icon-cart' %}
-          ({{ cart.item_count }}
-        </a>
-      </div>
-
+</div>
     </div>
 
 
+
+
   </div>
-
-
-
-
+  
 </section>
+<div class="header_cart_sec">
+   <form action="/checkout" method="post" id="cart" class="hj mm-menu mm-theme-white mm-offcanvas mm-right mm-front mm-current " >
+   
+        <h2>Shopping Bag</h2>
+		<div class="earning_sec">
+		<p><span>$25.00 </span>away from earning <span> FREE shoping</span></p>
+		</div>
+        <ul data-money-format="{{ shop.money_format }}" data-shop-currency="{{ shop.currency }}"
+            data-shop-name="{{ shop.name | escape }}" class="">
+			
+			
+			
+            <li class="mm-subtitle cart_close">{% include 'icon-close' %}</li>
+
+            {% if cart.item_count == 0 %}
+                <li class="empty_cart">{{ 'layout.general.empty_cart' | t }}</li>
+            {% else %}
+                {% for item in cart.items %}
+                    <li class="cart_item {% if forloop.last %}last_cart_item{% endif %}">
+                       
+                        <a href="{{ item.url }}">
+                            {% if item.image %}
+                                <div class="cart_image">
+                                    <img src="{{ item | img_url: 'medium' }}" alt="{{ item.title | escape }}" />
+                                </div>
+                            {% endif %}
+						</a>
+						<div class="mini_cart-detail">
+                            <div class="item_title">{{ item.title }}</div>
+                            
+							 <div class="mm-counter">
+							 <div class="icon_sve">
+							 
+                            <span class="icon-minus minus sub">{% include 'icon-minus' %}</span><input type="text" min="0" class="quantity" name="updates[]" id="updates_{{ item.id }}" value="{{ item.quantity }}" /><span class="icon-plus plus add">{% include 'icon-plus' %}</span>
+							 </div>
+							<strong class="price">
+                                <span class="money">{{ item.price | money }}</span>
+                            </strong>
+							</div>
+							
+                       
+						</div>
+                        
+                    </li>
+                {% endfor %}
+                <li class="mm-label total">
+					<strong>Subtotal</strong>
+                    <p class="mm-counter">
+                        <span class="money">{{ cart.total_price | money }}</span>
+                    </p>
+                    
+                </li>
+
+                <li class="mm-subtitle clearfix">
+
+                    <input type="submit" class="action_button right" value="Checkout" />
+                    <!--a href="/cart" class="action_button edit_cart right">View Cart</a-->
+                </li>
+            {% endif %}
+        </ul>
+    </form>
+	</div>
+
+
+
 
 {% if section.settings.logo != blank %}
   <style>
@@ -171,6 +255,7 @@
       display: block;
       max-width: {{ section.settings.logo_max_width }}px;
     }
+
   </style>
 {% endif %}
 

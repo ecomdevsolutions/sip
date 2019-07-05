@@ -1,5 +1,10 @@
+
+
+<div class="container-fluid">
+<div class="main_view_cart_sce">
+
 {% if cart.item_count > 0 %}
-  <h1>{{ 'cart.general.title' | t }}</h1>
+  <h2 class="index-f-products__title">{{ 'cart.general.title' | t }}</h2>
 
   <form action="/cart" method="post" novalidate>
     <table class="responsive-table">
@@ -126,3 +131,12 @@
     <p>{{ 'cart.general.cookies_required' | t }}</p>
   </div>
 {% endif %}
+
+</div>
+</div>
+<style>
+.tabs_sec p, span {
+    margin: 0 !important;
+    color: #757575;
+}
+</style>

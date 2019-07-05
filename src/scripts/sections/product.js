@@ -110,13 +110,14 @@ register("product", {
     if (!variant) {
       submitButton.disabled = true;
       submitButtonText.innerText = theme.strings.unavailable;
-    } else if (variant.available) {
+    }else if (variant.available) {
       submitButton.disabled = false;
       submitButtonText.innerText = theme.strings.addToCart;
     } else {
       submitButton.disabled = true;
       submitButtonText.innerText = theme.strings.soldOut;
     }
+	
   },
 
   renderImages(variant) {

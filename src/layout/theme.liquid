@@ -1,6 +1,7 @@
 <!doctype html>
 <html class="no-js supports-no-cookies" lang="{{ shop.locale }}">
 <head>
+<script type="text/javascript">(function e(){var e=document.createElement("script");e.type="text/javascript",e.async=true,e.src="//staticw2.yotpo.com/wzEo5Y9prJgJeGbube6Y0IuJfXjogzBjiNxfJmyC/widget.js";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t)})();</script>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -36,7 +37,7 @@
 
   {% comment %} TODO - remove after proper font installed {% endcomment %}
   <link href="https://fonts.googleapis.com/css?family=Lato|Poppins:400,500,600,700|Simonetta&display=swap" rel="stylesheet">
-
+ 
   <script>
     document.documentElement.className = document.documentElement.className.replace('no-js', '');
 
@@ -55,9 +56,94 @@
   </script>
 
   {% include 'script-tags', layout: 'theme' %}
+  {{ 'confirm_password.js' | asset_url | script_tag }}
+   {{ content_for_header }}
+   
+  <!-- Begin Recently Viewed Products -->
 
-  {{ content_for_header }}
+{{ '//code.jquery.com/jquery-3.3.1.js' | script_tag }}
+{{ '//ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js' | script_tag }}
+{{ 'jquery.products.min.js' | asset_url | script_tag }}
+<script>
+Shopify.Products.recordRecentlyViewed();
+</script>
+{% if template contains 'product' %}
+
+
+
+
+{% endif %}
+
+<!-- End Recently Viewed Products -->
+
+ {% include 'bc-sf-filter-style' %}
+ <script>
+ jQuery(document).ready(function() {
+	 jQuery(document).on("click",".js_filter_drop",function() {
+		jQuery(this).siblings('.product-item__size-options').toggle('slow');
+	});
+
+
+	jQuery('form#create_customer').submit(function(e) { 
+	
+		if ( jQuery('#CreatePassword').val() === jQuery('#password_confirm').val()) {
+		  //alert('Password Good!!');
+
+		} else {
+		  jQuery('.password-match').fadeIn("slow");
+		  e.preventDefault(); // stops our form from submitting
+		}
+	});
+});
+	</script>
 </head>
+<script>
+ jQuery(document).ready(function() {
+    jQuery('ul.tabs').each(function(){
+      var active, content, links = $(this).find('a');
+      active = links.first().addClass('active');
+      content = $(active.attr('href'));
+      links.not(':first').each(function () {
+        jQuery(jQuery(this).attr('href')).hide();
+      });
+      jQuery(this).find('a').click(function(e){
+        active.removeClass('active');
+        content.hide();
+        active = jQuery(this);
+        content = jQuery(jQuery(this).attr('href'));
+        active.addClass('active');
+        content.show();
+        return false;
+      });
+    });
+	jQuery('.over_order h5 span').click(function(e){
+	jQuery('.over_order h6').toggle('slow');
+	});
+	jQuery('i.fa.fa-search.search_sectin').click(function(e){
+	jQuery('.search_sec').toggle('slow');
+	});
+	jQuery('.close_icon').click(function(e){
+	jQuery('.search_sec').toggle('slow');
+	});
+	jQuery('a.mini_cart_icon').click(function(){
+		jQuery('#cart').toggle('slow');
+	});
+	jQuery('li.mm-subtitle.cart_close svg.icon').click(function(){
+		jQuery('#cart').toggle('slow');
+	});
+	jQuery('.add').click(function () {
+		
+    	jQuery(this).prev().val(+jQuery(this).prev().val() + 1);
+		
+	});
+	jQuery('.sub').click(function () {
+			if (jQuery(this).next().val() > 0) {
+			if (jQuery(this).next().val() > 0) jQuery(this).next().val(+jQuery(this).next().val() - 1);
+			}
+	});
+	
+  });
+</script>
 
 <body id="{{ page_title | handle }}" class="template-{{ template.name | handle }}">
 
@@ -70,6 +156,7 @@
   </main>
 
   {% section 'footer' %}
-
+{% include 'bc-sf-filter' %}
+ {% include 'swymSnippet' %}
 </body>
 </html>

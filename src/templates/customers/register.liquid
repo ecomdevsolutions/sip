@@ -1,9 +1,10 @@
-<h1>{{ 'customer.register.title' | t }}</h1>
+
 
 {% form 'create_customer' %}
   {{ form.errors | default_errors }}
-
-  <label for="FirstName" class="label-hidden">
+<div id="CustomerLoginForm">
+<h2 class="index-f-products__title">{{ 'customer.register.title' | t }}</h2>
+  <label for="FirstName" class="my_login_sec">
     {{ 'customer.register.first_name' | t }}
   </label>
   <input type="text"
@@ -13,7 +14,7 @@
     autofocus
     {% if form.first_name %}value="{{ form.first_name }}"{% endif %}>
 
-  <label for="LastName" class="label-hidden">
+  <label for="LastName" class="my_login_sec">
     {{ 'customer.register.last_name' | t }}
   </label>
   <input type="text"
@@ -22,7 +23,7 @@
     placeholder="{{ 'customer.register.last_name' | t }}"
     {% if form.last_name %}value="{{ form.last_name }}"{% endif %}>
 
-  <label for="Email" class="label-hidden">
+  <label for="Email" class="my_login_sec">
     {{ 'customer.register.email' | t }}
   </label>
   <input type="email"
@@ -35,7 +36,7 @@
     autocomplete="off"
     autocapitalize="off">
 
-  <label for="CreatePassword" class="label-hidden">
+  <label for="CreatePassword" class="my_login_sec">
     {{ 'customer.register.password' | t }}
   </label>
   <input type="password"
@@ -44,8 +45,12 @@
     class="{% if form.errors contains 'password' %}input-error{% endif %}"
     placeholder="{{ 'customer.register.password' | t }}">
 
-  <p>
+  <label for="password_confirmation" class="my_login_sec">Repeat Password</label> <span class="password-match" style="display:none;">PASSWORDS DO NOT MATCH</span>
+  <input type="password" value="" name="customer[password_confirmation]" id="password_confirm" placeholder="Repeat your password" />
+   
+  	<div style="margin: 30px 0 20px;" class="Submit_button_sce">
     <input type="submit" value="{{ 'customer.register.submit' | t }}" class="button">
-  </p>
+  </div>
   <a href="{{ shop.url }}">{{ 'customer.register.cancel' | t }}</a>
+  </div>
 {% endform %}
